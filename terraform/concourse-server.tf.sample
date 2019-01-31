@@ -1,0 +1,64 @@
+# See the variables.tf file in module-concourse-server for a complete description
+# of the options
+
+variable "rds_password" {
+    default = "ChangeMePls"
+}
+
+module "concourse-server" {
+
+  #####################################
+  # Do not modify the following lines #
+  source = "module-concourse-server"
+
+  project  = "${var.project}"
+  env      = "${var.env}"
+  customer = "${var.customer}"
+  aws_region  = "${var.aws_region}"
+
+  #####################################
+
+  bastion_sg_allow        = "${data.terraform_remote_state.infrastructure.($ environment $)_bastion_sg_allow}"
+  keypair_name            = "cycloid-concourse-server"
+
+  metrics_sg_allow        = "${data.terraform_remote_state.prometheus.($ environment $)_metrics_sg_allow}"
+  private_subnets_ids     = "${data.terraform_remote_state.infrastructure.($ environment $)_private_subnets}"
+  public_subnets_ids      = "${data.terraform_remote_state.infrastructure.($ environment $)_public_subnets}"
+  vpc_id                  = "${data.terraform_remote_state.infrastructure.($ environment $)_vpc_id}"
+  
+  # concourse_disk_size                   = 20
+  # concourse_disk_type                   = "gp2"
+  # concourse_volume_disk_size            = 50
+  # concourse_volume_disk_type            = "gp2"
+  # concourse_ebs_optimized               = true
+  # concourse_type                        = "m3.medium"
+  # concourse_associate_public_ip_address = true
+
+  # create a dedicated ALB
+  concourse_create_alb          = true
+  concourse_acm_certificate_arn = "<acm-certificate-arn>"
+
+  # use an existing ALB
+  # concourse_create_alb            = false
+  # concourse_alb_listener_arn      = ""
+  # concourse_alb_security_group_id = ""
+
+  concourse_domain = ""
+
+  rds_password            = "${var.rds_password}"
+  # rds_database_name       = "concourse"
+  # rds_disk_size           = "50"
+  # rds_multiaz             = true
+  # rds_storage_type        = "gp2"
+  # rds_type                = "db.t2.small"
+  # rds_username            = "concourse"
+  # rds_engine              = "postgres"
+  # rds_engine_version      = "9.5"
+  # rds_maintenance_window  = "tue:06:00-tue:07:00"
+  # rds_backup_window       = "02:00-04:00"
+  # rds_backup_retention    = 7
+  # rds_skip_final_snapshot = false
+  # rds_parameters          = ""                        # use the stack included parameters
+  # rds_subnet              = "<rds-subnet-id>"
+  # rds_postgresql_family   = "postgres9.5"
+}

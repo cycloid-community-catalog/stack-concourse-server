@@ -1,0 +1,11 @@
+# In this file you could override any variables present in default.yml file
+
+#
+# Global config
+#
+
+#concourse_domain: concourse.localdomain
+
+#vault_url: https://vault:8200
+#vault_auth_backend: approle
+#vault_auth_prefix: /cycloid
