@@ -6,7 +6,7 @@
   become: yes
   vars_files:
     - "environments/default.yml"
-    - [ "environments/{{ env }}-concourse.yml", "environments/empty.yml" ]
+    - [ "environments/{{ env }}-concourse-server.yml", "environments/empty.yml" ]
   tasks:
     - template:
         src: /tmp/first-boot.yml.tpl
