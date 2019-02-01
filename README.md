@@ -7,7 +7,7 @@ Built on the simple mechanics of resources, tasks, and jobs, Concourse presents 
 
 This stack will deploy a Concourse server (web+atc) on an Amazon EC2 instance behind ALB/NLB loadbalancers, using PostgreSQL for Cycloid.io.
 
-![](https://cdn.jsdelivr.net/gh/cycloid-community-catalog/stack-concourse-server@master/diagram.svg)
+![](https://cdn.jsdelivr.net/gh/cycloid-community-catalog/stack-concourse-server@28b0425/diagram.svg)
 
   * **ALB**: Amazon application loadbalancer
   * **NLB**: Amazon network loadbalancer
