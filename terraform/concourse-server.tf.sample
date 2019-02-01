@@ -43,7 +43,12 @@ module "concourse-server" {
   # concourse_alb_listener_arn      = ""
   # concourse_alb_security_group_id = ""
 
+  # used for the ALB listener rule
   concourse_domain = ""
+
+  # used for the NLB to restrict SSH access
+  workers_sg_allow    = []
+  workers_cidr_allow  = []
 
   rds_password            = "${var.rds_password}"
   # rds_database_name       = "concourse"

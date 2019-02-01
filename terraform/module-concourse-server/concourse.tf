@@ -54,6 +54,14 @@ resource "aws_security_group" "concourse" {
     security_groups = ["${var.concourse_create_alb == true ? aws_security_group.alb-concourse.id : var.concourse_alb_security_group_id}"]
   }
 
+  ingress {
+    from_port       = 2222
+    to_port         = 2222
+    protocol        = "tcp"
+    security_groups = ["${var.workers_sg_allow}"]
+    cidr_blocks     = ["${var.workers_cidr_allow}"]
+  }
+
   egress {
     from_port   = 0
     to_port     = 0
@@ -308,7 +316,7 @@ resource "aws_alb_target_group" "concourse-8080" {
 //   port             = 80
 // }
 
-resource "aws_autoscaling_attachment" "concourse" {
+resource "aws_autoscaling_attachment" "concourse-8080" {
   autoscaling_group_name = "${aws_cloudformation_stack.concourse.outputs["AsgName"]}"
   alb_target_group_arn   = "${aws_alb_target_group.concourse-8080.arn}"
 }
@@ -326,6 +334,72 @@ resource "aws_alb_listener_rule" "concourse" {
     field  = "host-header"
     values = ["${var.concourse_domain}"]
   }
+}
+
+###
+
+# NLB
+
+###
+
+resource "aws_lb" "concourse" {
+  name                             = "${var.project}-nlb-concourse-server-${var.env}"
+  load_balancer_type               = "network"
+  internal                         = false
+  subnets                          = ["${var.public_subnets_ids}"]
+  enable_cross_zone_load_balancing = true
+
+  tags {
+    Name       = "${var.project}-nlb-concourse-server-${var.env}"
+    client     = "${var.customer}"
+    env        = "${var.env}"
+    project    = "${var.project}"
+    cycloid.io = "true"
+    role       = "concourse-server"
+  }
+}
+
+resource "aws_lb_listener" "concourse-2222" {
+  load_balancer_arn = "${aws_lb.concourse.arn}"
+  protocol          = "TCP"
+  port              = "2222"
+
+
+  default_action {
+    target_group_arn = "${aws_lb_target_group.concourse-2222.arn}"
+    type             = "forward"
+  }
+}
+
+
+resource "aws_lb_target_group" "concourse-2222" {
+  name     = "${var.project}-concourse2222-${var.env}"
+  protocol = "TCP"
+  port     = 2222
+  vpc_id   = "${var.vpc_id}"
+
+
+  health_check {
+    healthy_threshold   = 3
+    unhealthy_threshold = 3
+    interval            = 10
+    port                = 2222
+    protocol            = "TCP"
+  }
+
+  tags {
+    cycloid.io = "true"
+    Name       = "${var.project}-concourse2222-${var.env}"
+    client     = "${var.customer}"
+    env        = "${var.env}"
+    project    = "${var.project}"
+    role       = "concourse-server"
+  }
+}
+
+resource "aws_autoscaling_attachment" "concourse-2222" {
+  autoscaling_group_name = "${aws_cloudformation_stack.concourse.outputs["AsgName"]}"
+  alb_target_group_arn   = "${aws_lb_target_group.concourse-2222.arn}"
 }
 
 ###

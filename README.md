@@ -5,11 +5,12 @@ Built on the simple mechanics of resources, tasks, and jobs, Concourse presents 
 
 ## Architecture
 
-This stack will deploy a Concourse server (web+atc) on an Amazon EC2 instance behind an ALB load balancer, using PostgreSQL for Cycloid.io.
+This stack will deploy a Concourse server (web+atc) on an Amazon EC2 instance behind ALB/NLB loadbalancers, using PostgreSQL for Cycloid.io.
 
 ![](https://cdn.jsdelivr.net/gh/cycloid-community-catalog/stack-concourse-server@master/diagram.svg)
 
   * **ALB**: Amazon application loadbalancer
+  * **NLB**: Amazon network loadbalancer
   * **ASG**: Autoscaling group for fronts
   * **concourse-server**: EC2 instances from builded AMI
   * **RDS**: Amazon RDS database (PostgreSQL)
@@ -36,7 +37,8 @@ In order to run this task, couple elements are required within the infrastructur
 
 Create:
 
-  * ALB (loadbalancer), but can use your own ALB
+  * ALB (application loadbalancer), but you can use your own ALB
+  * NLB (network loadbalancer) for the worker SSH access
   * ASG with launch_template of a concourse server
   * RDS
 
