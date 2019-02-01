@@ -20,6 +20,27 @@ output "alb_id" {
   value = "${aws_alb.concourse.id}"
 }
 
+output "alb_dns_name" {
+  value = "${var.concourse_create_alb == true ? aws_alb.concourse.dns_name : ""}"
+}
+
+output "alb_zone_id" {
+  value = "${var.concourse_create_alb == true ? aws_alb.concourse.zone_id : ""}"
+}
+
+# NLB
+output "nlb_id" {
+  value = "${aws_lb.concourse.id}"
+}
+
+output "nlb_dns_name" {
+  value = "${aws_lb.concourse.dns_name}"
+}
+
+output "nlb_zone_id" {
+  value = "${aws_lb.concourse.zone_id}"
+}
+
 # RDS
 output "rds_address" {
   value = "${aws_db_instance.concourse.address}"

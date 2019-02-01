@@ -208,3 +208,14 @@ variable "concourse_alb_security_group_id" {
 }
 
 variable "concourse_domain" {}
+
+#
+# NLB
+#
+variable "workers_sg_allow" {
+  type = "list"
+}
+
+variable "workers_cidr_allow" {
+  type = "list"
+}
