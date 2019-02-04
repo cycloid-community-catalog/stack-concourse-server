@@ -30,7 +30,7 @@ config:
 
   # Configuration of ansible for provisionning
   ansible:
-    front:
+    concourse-server:
       path: 'ansible/environments/concourse-server.yml.sample'
       destination: '($ project $)/ansible/environments/($ environment $)-concourse-server.yml'
 
