@@ -51,7 +51,7 @@ resource "aws_db_instance" "concourse" {
   apply_immediately         = true
   maintenance_window        = "${var.rds_maintenance_window}"
   backup_window             = "${var.rds_backup_window}"
-  backup_retention_period   = "${var.rds_retention}"
+  backup_retention_period   = "${var.rds_backup_retention}"
   final_snapshot_identifier = "${var.customer}-${var.project}-rds-concourse-${lookup(var.short_region, var.aws_region)}-${var.env}"
   skip_final_snapshot       = "${var.rds_skip_final_snapshot}"
   copy_tags_to_snapshot     = true

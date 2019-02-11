@@ -191,7 +191,7 @@ resource "aws_cloudformation_stack" "concourse" {
         "HealthCheckType": "EC2",
         "HealthCheckGracePeriod": 600,
         "Tags" : [
-          { "Key" : "Name", "Value" : "${var.project}-concourse-server-${lookup(var.short_region, data.aws_region.current.name)}-${var.env}", "PropagateAtLaunch" : "true" },
+          { "Key" : "Name", "Value" : "${var.project}-concourse-server-${lookup(var.short_region, var.aws_region)}-${var.env}", "PropagateAtLaunch" : "true" },
           { "Key" : "client", "Value" : "${var.customer}", "PropagateAtLaunch" : "true" },
           { "Key" : "env", "Value" : "${var.env}", "PropagateAtLaunch" : "true" },
           { "Key" : "project", "Value" : "${var.project}", "PropagateAtLaunch" : "true" },

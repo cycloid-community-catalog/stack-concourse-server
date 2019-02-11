@@ -69,7 +69,7 @@ data "aws_iam_policy_document" "cloudformation-signal" {
     effect = "Allow"
 
     resources = [
-      "arn:aws:cloudformation:${data.aws_region.current.name}:${data.aws_caller_identity.current.account_id}:stack/${var.project}-concourse-server-${var.env}/*",
+      "arn:aws:cloudformation:${var.aws_region}:${data.aws_caller_identity.current.account_id}:stack/${var.project}-concourse-server-${var.env}/*",
     ]
   }
 }

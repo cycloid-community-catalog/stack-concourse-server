@@ -1,4 +1,6 @@
-data "aws_region" "current" {}
+variable "aws_region" {
+  default = "eu-west-1"
+}
 
 variable "bastion_sg_allow" {
   default = ""
@@ -78,6 +80,10 @@ variable "rds_type" {
 
 variable "rds_username" {
   default = "concourse"
+}
+
+variable "rds_password" {
+  default = "ChangeMePls"
 }
 
 variable "rds_engine" {
