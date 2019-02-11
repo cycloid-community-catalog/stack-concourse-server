@@ -103,12 +103,27 @@
         mode: 0400
     
     - name: authorized worker keys | concourse
-      assemble:
-        remote_src: false
-        src: "{{ playbook_dir }}/files/workers_keys/"
-        dest: "{{ concourse_config_path }}/{{ concourse_authorized_worker_keys_path }}"
-        mode: 0400
-        validate: '/usr/sbin/ssh-keygen -l -f %s'
+      block:
+        - name: Check if worker_keys dir exists
+          stat:
+            path: "{{ playbook_dir }}/files/workers_keys/"
+          register: worker_keys_dir
+
+        - name: Assemble worker public keys into a authorized_keys file
+          assemble:
+            remote_src: false
+            src: "{{ playbook_dir }}/files/workers_keys/"
+            dest: "{{ concourse_config_path }}/{{ concourse_authorized_worker_keys_path }}"
+            mode: 0400
+            validate: '/usr/sbin/ssh-keygen -l -f %s'
+          when: worker_keys_dir.stat.exists and worker_keys_dir.stat.isdir
+
+        - name: Fallback empty authorized_keys file
+          file:
+            path: "{{ concourse_config_path }}/{{ concourse_authorized_worker_keys_path }}"
+            mode: 0400
+            state: touch
+          when: worker_keys_dir.stat.exists == false
 
     - name: Concourse Server
       include_role:
