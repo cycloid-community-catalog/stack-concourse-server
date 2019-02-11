@@ -95,16 +95,12 @@
         content: "{{ concourse_tsa_host_key }}"
         dest: "{{ concourse_config_path }}/{{ concourse_tsa_host_key_path }}"
         mode: 0400
-      notify:
-      - restart concourse web
 
     - name: session signing key | concourse
       copy:
         content: "{{ concourse_session_signing_key }}"
         dest: "{{ concourse_config_path }}/{{ concourse_session_signing_key_path }}"
         mode: 0400
-      notify:
-      - restart concourse web
     
     - name: authorized worker keys | concourse
       assemble:
@@ -172,6 +168,5 @@
       service:
         name: concourse-server
         state: restarted
-        enabled: yes
       tags:
        - notforbuild
