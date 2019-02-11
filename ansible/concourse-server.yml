@@ -83,7 +83,13 @@
         group: root
         mode: 0644
       with_items: "{{ sysctl_configs }}"
-    
+
+    - name: config path folder | concourse
+      file:
+        path: "{{ concourse_config_path }}"
+        state: directory
+        recurse: yes
+
     - name: tsa host key | concourse
       copy:
         content: "{{ concourse_tsa_host_key }}"
