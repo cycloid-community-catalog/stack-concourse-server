@@ -170,7 +170,9 @@
           POSTGRES_USERNAME: "{{ concourse_db_user }}"
           POSTGRES_PASSWORD: "{{ concourse_db_password }}"
           CONCOURSE_POSTGRES_DATA_SOURCE: "postgres://{{ concourse_db_user }}:{{ concourse_db_password }}@{{ concourse_db_host }}:{{ concourse_db_port }}/{{ concourse_db_name }}?sslmode=disable"
-      tags: docker-services
+      tags:
+        - docker-services
+        - notforbuild
 
     # Ensure server is started and configured at first boot
     - name: configure server service | concourse
