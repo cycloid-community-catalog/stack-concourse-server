@@ -51,7 +51,7 @@ resource "aws_security_group" "concourse" {
     from_port       = 8080
     to_port         = 8080
     protocol        = "tcp"
-    security_groups = ["${var.concourse_create_alb == true ? aws_security_group.alb-concourse.id : var.concourse_alb_security_group_id}"]
+    security_groups = ["${var.concourse_create_alb == true ? join("", aws_security_group.alb-concourse.*.id) : var.concourse_alb_security_group_id}"]
   }
 
   ingress {
@@ -324,7 +324,7 @@ resource "aws_autoscaling_attachment" "concourse-8080" {
 }
 
 resource "aws_alb_listener_rule" "concourse" {
-  listener_arn = "${var.concourse_create_alb == true ? aws_alb_listener.concourse-443.arn : var.concourse_alb_listener_arn}"
+  listener_arn = "${var.concourse_create_alb == true ? join("", aws_alb_listener.concourse-443.*.arn) : var.concourse_alb_listener_arn}"
   priority     = 80
 
   action {

@@ -13,19 +13,19 @@ output "asg_concourse_sec_group_id" {
 
 # ALB
 output "alb_sec_group_id" {
-  value = "${aws_security_group.alb-concourse.id}"
+  value = "${var.concourse_create_alb == true ? join("", aws_security_group.alb-concourse.*.id) : ""}"
 }
 
 output "alb_id" {
-  value = "${aws_alb.concourse.id}"
+  value = "${var.concourse_create_alb == true ? join("", aws_alb.concourse.*.id) : ""}"
 }
 
 output "alb_dns_name" {
-  value = "${var.concourse_create_alb == true ? aws_alb.concourse.dns_name : ""}"
+  value = "${var.concourse_create_alb == true ? join("", aws_alb.concourse.*.dns_name) : ""}"
 }
 
 output "alb_zone_id" {
-  value = "${var.concourse_create_alb == true ? aws_alb.concourse.zone_id : ""}"
+  value = "${var.concourse_create_alb == true ? join("", aws_alb.concourse.*.zone_id) : ""}"
 }
 
 # NLB
@@ -57,3 +57,4 @@ output "rds_database" {
 output "rds_username" {
   value = "${aws_db_instance.concourse.username}"
 }
+
