@@ -76,6 +76,8 @@ resource "aws_security_group" "concourse" {
     project    = "${var.project}"
     role       = "concourse-server"
   }
+
+  depends_on = ["aws_security_group.alb-concourse"]
 }
 
 resource "aws_launch_template" "concourse" {
@@ -334,6 +336,8 @@ resource "aws_alb_listener_rule" "concourse" {
     field  = "host-header"
     values = ["${var.concourse_domain}"]
   }
+
+  depends_on = ["aws_alb_listener.concourse-443"]
 }
 
 ###
