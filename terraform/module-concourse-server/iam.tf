@@ -15,14 +15,14 @@ data "aws_iam_policy_document" "assume_role" {
 
 # Create IAM Role for concourse server
 resource "aws_iam_role" "concourse" {
-  name               = "concourse-server-${var.project}-${var.env}"
+  name               = "concourse-${var.project}-${var.env}"
   assume_role_policy = "${data.aws_iam_policy_document.assume_role.json}"
   path               = "/${var.project}/"
 }
 
 
 resource "aws_iam_instance_profile" "concourse_profile" {
-  name = "profile-concourse-server-${var.project}-${var.env}"
+  name = "profile-concourse-${var.project}-${var.env}"
   role = "${aws_iam_role.concourse.name}"
 }
 
@@ -69,7 +69,7 @@ data "aws_iam_policy_document" "cloudformation-signal" {
     effect = "Allow"
 
     resources = [
-      "arn:aws:cloudformation:${var.aws_region}:${data.aws_caller_identity.current.account_id}:stack/${var.project}-concourse-server-${var.env}/*",
+      "arn:aws:cloudformation:${var.aws_region}:${data.aws_caller_identity.current.account_id}:stack/${var.project}-concourse-${var.env}/*",
     ]
   }
 }
@@ -106,7 +106,7 @@ data "aws_iam_policy_document" "concourse" {
 }
 
 resource "aws_iam_policy" "concourse" {
-  name        = "${var.env}-${var.project}-concourse-server"
+  name        = "${var.env}-${var.project}-concourse"
   path        = "/"
   policy      = "${data.aws_iam_policy_document.concourse.json}"
 }

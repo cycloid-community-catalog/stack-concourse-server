@@ -5,7 +5,7 @@
 ###
 
 resource "aws_security_group" "alb-concourse" {
-  name        = "${var.project}-alb-concourse-server-${var.env}"
+  name        = "${var.project}-alb-concourse-${var.env}"
   description = "${var.env} concourse ALB for ${var.project}"
   vpc_id      = "${var.vpc_id}"
 
@@ -32,7 +32,7 @@ resource "aws_security_group" "alb-concourse" {
 
   tags {
     cycloid.io = "true"
-    Name       = "${var.project}-alb-concourse-server-${var.env}"
+    Name       = "${var.project}-alb-concourse-${var.env}"
     client     = "${var.customer}"
     env        = "${var.env}"
     project    = "${var.project}"
@@ -43,7 +43,7 @@ resource "aws_security_group" "alb-concourse" {
 }
 
 resource "aws_security_group" "concourse" {
-  name        = "${var.project}-concourse-server-${var.env}"
+  name        = "${var.project}-concourse-${var.env}"
   description = "${var.env} Concourse server for ${var.project}"
   vpc_id      = "${var.vpc_id}"
 
@@ -71,7 +71,7 @@ resource "aws_security_group" "concourse" {
 
   tags {
     cycloid.io = "true"
-    Name       = "${var.project}-concourse-server-${var.env}"
+    Name       = "${var.project}-concourse-${var.env}"
     env        = "${var.env}"
     project    = "${var.project}"
     role       = "concourse-server"
@@ -79,7 +79,7 @@ resource "aws_security_group" "concourse" {
 }
 
 resource "aws_launch_template" "concourse" {
-  name_prefix = "concourse-server_${var.env}_version_"
+  name_prefix = "concourse_${var.env}_version_"
 
   image_id      = "${data.aws_ami.concourse.id}"
   instance_type = "${var.concourse_type}"
@@ -108,7 +108,7 @@ resource "aws_launch_template" "concourse" {
 
   tags {
     cycloid.io = "true"
-    Name       = "${var.project}-concourse-server-template-${var.env}"
+    Name       = "${var.project}-concourse-template-${var.env}"
     client     = "${var.customer}"
     env        = "${var.env}"
     project    = "${var.project}"
@@ -120,7 +120,7 @@ resource "aws_launch_template" "concourse" {
 
     tags {
       cycloid.io = "true"
-      Name       = "${var.project}-concourse-server-${var.env}"
+      Name       = "${var.project}-concourse-${var.env}"
       client     = "${var.customer}"
       env        = "${var.env}"
       project    = "${var.project}"
@@ -133,7 +133,7 @@ resource "aws_launch_template" "concourse" {
 
     tags {
       cycloid.io = "true"
-      Name       = "${var.project}-concourse-server-${var.env}"
+      Name       = "${var.project}-concourse-${var.env}"
       client     = "${var.customer}"
       env        = "${var.env}"
       project    = "${var.project}"
@@ -170,7 +170,7 @@ resource "aws_launch_template" "concourse" {
 ###
 
 resource "aws_cloudformation_stack" "concourse" {
-  name = "${var.project}-concourse-server-${var.env}"
+  name = "${var.project}-concourse-${var.env}"
 
   template_body = <<EOF
 {
@@ -191,7 +191,7 @@ resource "aws_cloudformation_stack" "concourse" {
         "HealthCheckType": "EC2",
         "HealthCheckGracePeriod": 600,
         "Tags" : [
-          { "Key" : "Name", "Value" : "${var.project}-concourse-server-${lookup(var.short_region, var.aws_region)}-${var.env}", "PropagateAtLaunch" : "true" },
+          { "Key" : "Name", "Value" : "${var.project}-concourse-${lookup(var.short_region, var.aws_region)}-${var.env}", "PropagateAtLaunch" : "true" },
           { "Key" : "client", "Value" : "${var.customer}", "PropagateAtLaunch" : "true" },
           { "Key" : "env", "Value" : "${var.env}", "PropagateAtLaunch" : "true" },
           { "Key" : "project", "Value" : "${var.project}", "PropagateAtLaunch" : "true" },
@@ -228,7 +228,7 @@ EOF
 ###
 
 resource "aws_alb" "concourse" {
-  name            = "${var.project}-alb-concourse-server-${var.env}"
+  name            = "${var.project}-alb-${var.env}"
   security_groups = ["${aws_security_group.alb-concourse.id}"]
   subnets         = ["${var.public_subnets_ids}"]
 
@@ -236,7 +236,7 @@ resource "aws_alb" "concourse" {
   idle_timeout                     = 600
 
   tags {
-    Name       = "${var.project}-alb-concourse-server-${var.env}"
+    Name       = "${var.project}-alb-${var.env}"
     client     = "${var.customer}"
     env        = "${var.env}"
     project    = "${var.project}"
@@ -288,7 +288,7 @@ resource "aws_alb_listener" "concourse-443" {
 }
 
 resource "aws_alb_target_group" "concourse-8080" {
-  name     = "${var.project}-concourse8080-${var.env}"
+  name     = "${var.project}-http-${var.env}"
   port     = 8080
   protocol = "HTTP"
   vpc_id   = "${var.vpc_id}"
@@ -302,7 +302,7 @@ resource "aws_alb_target_group" "concourse-8080" {
 
   tags {
     cycloid.io = "true"
-    Name       = "${var.project}-concourse8080-${var.env}"
+    Name       = "${var.project}-http-${var.env}"
     client     = "${var.customer}"
     env        = "${var.env}"
     project    = "${var.project}"
@@ -343,14 +343,14 @@ resource "aws_alb_listener_rule" "concourse" {
 ###
 
 resource "aws_lb" "concourse" {
-  name                             = "${var.project}-nlb-concourse-server-${var.env}"
+  name                             = "${var.project}-nlb-${var.env}"
   load_balancer_type               = "network"
   internal                         = false
   subnets                          = ["${var.public_subnets_ids}"]
   enable_cross_zone_load_balancing = true
 
   tags {
-    Name       = "${var.project}-nlb-concourse-server-${var.env}"
+    Name       = "${var.project}-nlb-${var.env}"
     client     = "${var.customer}"
     env        = "${var.env}"
     project    = "${var.project}"
@@ -373,7 +373,7 @@ resource "aws_lb_listener" "concourse-2222" {
 
 
 resource "aws_lb_target_group" "concourse-2222" {
-  name     = "${var.project}-concourse2222-${var.env}"
+  name     = "${var.project}-ssh-${var.env}"
   protocol = "TCP"
   port     = 2222
   vpc_id   = "${var.vpc_id}"
@@ -389,7 +389,7 @@ resource "aws_lb_target_group" "concourse-2222" {
 
   tags {
     cycloid.io = "true"
-    Name       = "${var.project}-concourse2222-${var.env}"
+    Name       = "${var.project}-ssh-${var.env}"
     client     = "${var.customer}"
     env        = "${var.env}"
     project    = "${var.project}"
@@ -410,7 +410,7 @@ resource "aws_autoscaling_attachment" "concourse-2222" {
 
 # Disable for now as concourse don't really like scale down
 #resource "aws_autoscaling_policy" "concourse-scale-up" {
-#  name                   = "${var.project}-concourse-server-scale-up-${var.env}"
+#  name                   = "${var.project}-concourse-scale-up-${var.env}"
 #  scaling_adjustment     = "${var.concourse_asg_scale_up_scaling_adjustment}"
 #  adjustment_type        = "ChangeInCapacity"
 #  cooldown               = "${var.concourse_asg_scale_up_cooldown}"
@@ -418,7 +418,7 @@ resource "aws_autoscaling_attachment" "concourse-2222" {
 #}
 #
 #resource "aws_cloudwatch_metric_alarm" "concourse-scale-up" {
-#  alarm_name          = "${var.project}-concourse-server-scale-up-${var.env}"
+#  alarm_name          = "${var.project}-concourse-scale-up-${var.env}"
 #  comparison_operator = "GreaterThanOrEqualToThreshold"
 #  evaluation_periods  = "2"
 #  metric_name         = "CPUUtilization"
@@ -436,7 +436,7 @@ resource "aws_autoscaling_attachment" "concourse-2222" {
 #}
 #
 #resource "aws_autoscaling_policy" "concourse-scale-down" {
-#  name                   = "${var.project}-concourse-server-scale-down-${var.env}"
+#  name                   = "${var.project}-concourse-scale-down-${var.env}"
 #  scaling_adjustment     = "${var.concourse_asg_scale_down_scaling_adjustment}"
 #  adjustment_type        = "ChangeInCapacity"
 #  cooldown               = "${var.concourse_asg_scale_down_cooldown}"
@@ -444,7 +444,7 @@ resource "aws_autoscaling_attachment" "concourse-2222" {
 #}
 #
 #resource "aws_cloudwatch_metric_alarm" "concourse-scale-down" {
-#  alarm_name          = "${var.project}-concourse-server-scale-down-${var.env}"
+#  alarm_name          = "${var.project}-concourse-scale-down-${var.env}"
 #  comparison_operator = "LessThanOrEqualToThreshold"
 #  evaluation_periods  = "2"
 #  metric_name         = "CPUUtilization"
