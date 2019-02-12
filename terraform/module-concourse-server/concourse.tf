@@ -58,7 +58,6 @@ resource "aws_security_group" "concourse" {
     from_port       = 2222
     to_port         = 2222
     protocol        = "tcp"
-    security_groups = ["${var.workers_sg_allow}"]
     cidr_blocks     = ["${var.workers_cidr_allow}"]
   }
 
@@ -78,6 +77,17 @@ resource "aws_security_group" "concourse" {
   }
 
   depends_on = ["aws_security_group.alb-concourse"]
+}
+
+resource "aws_security_group_rule" "ssh-sg" {
+  type                      = "ingress"
+  from_port                 = 2222
+  to_port                   = 2222
+  protocol                  = "tcp"
+  source_security_group_id  = "${element(var.workers_sg_allow, count.index)}"
+  count                     = "${length(var.workers_sg_allow)}"
+
+  security_group_id = "${aws_security_group.concourse.id}"
 }
 
 resource "aws_launch_template" "concourse" {
