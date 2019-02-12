@@ -109,6 +109,7 @@ resources:
       env: ((env))
       customer: ((customer))
       project: ((project))
+      rds_password: ((((rds_password))))
     env:
       AWS_ACCESS_KEY_ID: ((aws_access_key))
       AWS_DEFAULT_REGION: ((aws_default_region))
