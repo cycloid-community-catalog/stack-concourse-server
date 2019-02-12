@@ -348,7 +348,7 @@ resource "aws_autoscaling_attachment" "concourse-8080" {
 
 resource "aws_alb_listener_rule" "concourse" {
   count         = "${var.concourse_create_alb ? 1 : 0}"
-  listener_arn  = "${elememt(aws_alb_listener.concourse-443.*.arn, count.index)}"
+  listener_arn  = "${element(aws_alb_listener.concourse-443.*.arn, count.index)}"
   priority      = 80
 
   action {
