@@ -150,7 +150,7 @@ variable "concourse_volume_disk_type" {
 }
 
 variable "concourse_type" {
-  default = "m3.medium"
+  default = "t3.small"
 }
 
 variable "concourse_ebs_optimized" {
