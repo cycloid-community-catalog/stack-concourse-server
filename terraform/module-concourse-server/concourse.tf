@@ -39,7 +39,7 @@ resource "aws_security_group" "alb-concourse" {
     role       = "concourse-server"
   }
 
-  count = "${var.concourse_create_alb == true ? 1 : 0}"
+  count = "${var.concourse_create_alb ? 1 : 0}"
 }
 
 resource "aws_security_group" "concourse" {
@@ -76,7 +76,7 @@ resource "aws_security_group_rule" "http-sg" {
   to_port                   = 8080
   protocol                  = "tcp"
   source_security_group_id  = "${element(aws_security_group.alb-concourse.*.id, count.index)}"
-  count                     = "${var.concourse_create_alb == true ? 1 : 0}"
+  count                     = "${var.concourse_create_alb ? 1 : 0}"
 
   security_group_id = "${aws_security_group.concourse.id}"
 }
@@ -87,7 +87,7 @@ resource "aws_security_group_rule" "http-sg-var" {
   to_port                   = 8080
   protocol                  = "tcp"
   source_security_group_id  = "${var.concourse_alb_security_group_id}"
-  count                     = "${var.concourse_create_alb == false ? 1 : 0}"
+  count                     = "${var.concourse_create_alb ? 0 : 1}"
 
   security_group_id = "${aws_security_group.concourse.id}"
 }
@@ -269,7 +269,7 @@ resource "aws_alb" "concourse" {
     role       = "concourse-server"
   }
 
-  count = "${var.concourse_create_alb == true ? 1 : 0}"
+  count = "${var.concourse_create_alb ? 1 : 0}"
 }
 
 # 80 default redirect to 443
@@ -288,7 +288,7 @@ resource "aws_alb_listener" "concourse-80" {
     }
   }
 
-  count = "${var.concourse_create_alb == true ? 1 : 0}"
+  count = "${var.concourse_create_alb ? 1 : 0}"
 }
 
 # 443 default to fixed response
@@ -309,7 +309,7 @@ resource "aws_alb_listener" "concourse-443" {
     }
   }
 
-  count = "${var.concourse_create_alb == true ? 1 : 0}"
+  count = "${var.concourse_create_alb ? 1 : 0}"
 }
 
 resource "aws_alb_target_group" "concourse-8080" {
@@ -347,7 +347,7 @@ resource "aws_autoscaling_attachment" "concourse-8080" {
 }
 
 resource "aws_alb_listener_rule" "concourse" {
-  count         = "${var.concourse_create_alb == true ? 1 : 0}"
+  count         = "${var.concourse_create_alb ? 1 : 0}"
   listener_arn  = "${elememt(aws_alb_listener.concourse-443.*.arn, count.index)}"
   priority      = 80
 
@@ -363,7 +363,7 @@ resource "aws_alb_listener_rule" "concourse" {
 }
 
 resource "aws_alb_listener_rule" "concourse-var" {
-  count         = "${var.concourse_create_alb == false ? 1 : 0}"
+  count         = "${var.concourse_create_alb ? 0 : 1}"
   listener_arn  = "${var.concourse_alb_listener_arn}"
   priority      = 80
 
