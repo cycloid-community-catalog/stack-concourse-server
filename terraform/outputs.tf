@@ -30,10 +30,6 @@ output "rds_username" {
   value = "${module.concourse-server.rds_username}"
 }
 
-output "rds_password" {
-  value = "${var.rds_password}"
-}
-
 output "rds_database" {
   value = "${module.concourse-server.rds_database}"
 }
