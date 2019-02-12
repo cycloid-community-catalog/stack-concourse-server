@@ -4,8 +4,16 @@
 # Global config
 #
 
+# Concourse public domain
 #concourse_domain: concourse.localdomain
 
+# Vault parameters
 #vault_url: https://vault:8200
 #vault_auth_backend: approle
 #vault_auth_prefix: /cycloid
+
+# To allow concourse external workers, you will need to their SSH public keys
+# in your ansible stack config in the following directory:
+# * `{PROJECT_NAME}/ansible/files/worker_keys/`
+# Allowed worker keys in this directory will be assembled into a authorized_keys
+# file and given to the Concourse server.
