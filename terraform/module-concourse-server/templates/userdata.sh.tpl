@@ -4,6 +4,11 @@ export ENV=${env}
 export PROJECT=${project}
 export ROLE=${role}
 
+export RDS_ADDRESS=${rds_address}
+export RDS_PORT=${rds_port}
+export RDS_DATABASE=${rds_database}
+export RDS_USERNAME=${rds_username}
+
 LOG_FILE="/var/log/user-data.log"
 
 AWS_REGION=$(curl -s http://169.254.169.254/latest/dynamic/instance-identity/document | jq -r .region)
