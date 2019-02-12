@@ -113,7 +113,7 @@ variable "rds_parameters" {
   default = ""
 }
 
-variable "rds_subnet" {
+variable "rds_subnet_group" {
   default = ""
 }
 

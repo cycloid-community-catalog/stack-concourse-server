@@ -52,12 +52,13 @@ resource "aws_db_instance" "concourse" {
   maintenance_window        = "${var.rds_maintenance_window}"
   backup_window             = "${var.rds_backup_window}"
   backup_retention_period   = "${var.rds_backup_retention}"
+  copy_tags_to_snapshot     = true
   final_snapshot_identifier = "${var.customer}-${var.project}-rds-concourse-${lookup(var.short_region, var.aws_region)}-${var.env}"
   skip_final_snapshot       = "${var.rds_skip_final_snapshot}"
-  copy_tags_to_snapshot     = true
 
   parameter_group_name    = "${var.rds_parameters == "" ? aws_db_parameter_group.rds-optimized-postgresql.id : var.rds_parameters}"
-  db_subnet_group_name    = "${var.rds_subnet}"
+  db_subnet_group_name    = "${var.rds_subnet_group != "" ? var.rds_subnet_group : aws_db_subnet_group.rds-subnet.id}"
+
   vpc_security_group_ids  = ["${aws_security_group.rds-concourse.id}"]
 
   tags {
@@ -71,8 +72,8 @@ resource "aws_db_instance" "concourse" {
 }
 
 resource "aws_db_subnet_group" "rds-subnet" {
-  name        = "engine-cycloid.io_subnet-rds-${var.vpc_id}"
-  count       = "${var.rds_subnet != "" ? 0 : 1}"
-  description = "subnet-rds-${var.vpc_id}"
+  name        = "cycloid.io_subnet-rds-${var.vpc_id}-${var.env}"
+  count       = "${var.rds_subnet_group == "" ? 1 : 0}"
+  description = "subnet-rds-${var.vpc_id}-${var.env}"
   subnet_ids  = ["${var.private_subnets_ids}"]
 }

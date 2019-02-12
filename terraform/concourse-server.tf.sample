@@ -64,6 +64,6 @@ module "concourse-server" {
   # rds_backup_retention    = 7
   # rds_skip_final_snapshot = false
   # rds_parameters          = ""                        # use the stack included parameters
-  # rds_subnet              = "<rds-subnet-id>"
+  # rds_subnet_group        = "<rds-subnet-group-id>"
   # rds_postgresql_family   = "postgres9.5"
 }
