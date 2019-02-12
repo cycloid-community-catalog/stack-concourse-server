@@ -48,13 +48,6 @@ resource "aws_security_group" "concourse" {
   vpc_id      = "${var.vpc_id}"
 
   ingress {
-    from_port       = 8080
-    to_port         = 8080
-    protocol        = "tcp"
-    security_groups = ["${var.concourse_create_alb == true ? join("", aws_security_group.alb-concourse.*.id) : var.concourse_alb_security_group_id}"]
-  }
-
-  ingress {
     from_port       = 2222
     to_port         = 2222
     protocol        = "tcp"
@@ -75,8 +68,28 @@ resource "aws_security_group" "concourse" {
     project    = "${var.project}"
     role       = "concourse-server"
   }
+}
 
-  depends_on = ["aws_security_group.alb-concourse"]
+resource "aws_security_group_rule" "http-sg" {
+  type                      = "ingress"
+  from_port                 = 8080
+  to_port                   = 8080
+  protocol                  = "tcp"
+  source_security_group_id  = "${element(aws_security_group.alb-concourse.*.id, count.index)}"
+  count                     = "${var.concourse_create_alb == true ? 1 : 0}"
+
+  security_group_id = "${aws_security_group.concourse.id}"
+}
+
+resource "aws_security_group_rule" "http-sg-var" {
+  type                      = "ingress"
+  from_port                 = 8080
+  to_port                   = 8080
+  protocol                  = "tcp"
+  source_security_group_id  = "${var.concourse_alb_security_group_id}"
+  count                     = "${var.concourse_create_alb == false ? 1 : 0}"
+
+  security_group_id = "${aws_security_group.concourse.id}"
 }
 
 resource "aws_security_group_rule" "ssh-sg" {
@@ -334,8 +347,9 @@ resource "aws_autoscaling_attachment" "concourse-8080" {
 }
 
 resource "aws_alb_listener_rule" "concourse" {
-  listener_arn = "${var.concourse_create_alb == true ? join("", aws_alb_listener.concourse-443.*.arn) : var.concourse_alb_listener_arn}"
-  priority     = 80
+  count         = "${var.concourse_create_alb == true ? 1 : 0}"
+  listener_arn  = "${elememt(aws_alb_listener.concourse-443.*.arn, count.index)}"
+  priority      = 80
 
   action {
     type             = "forward"
@@ -346,8 +360,22 @@ resource "aws_alb_listener_rule" "concourse" {
     field  = "host-header"
     values = ["${var.concourse_domain}"]
   }
+}
 
-  depends_on = ["aws_alb_listener.concourse-443"]
+resource "aws_alb_listener_rule" "concourse-var" {
+  count         = "${var.concourse_create_alb == false ? 1 : 0}"
+  listener_arn  = "${var.concourse_alb_listener_arn}"
+  priority      = 80
+
+  action {
+    type             = "forward"
+    target_group_arn = "${aws_alb_target_group.concourse-8080.arn}"
+  }
+
+  condition {
+    field  = "host-header"
+    values = ["${var.concourse_domain}"]
+  }
 }
 
 ###
