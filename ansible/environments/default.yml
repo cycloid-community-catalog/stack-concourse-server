@@ -1,8 +1,6 @@
 ---
 
 docker_pull: true
-var_lib_docker_device: /dev/xvdf
-nvme_mapping_run: false
 
 cycloid_install_path: /opt/cycloid
 

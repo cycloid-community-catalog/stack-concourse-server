@@ -18,35 +18,6 @@
   roles:
     - {role: cycloid.telegraf, tags: telegraf}
     - {role: geerlingguy.docker, tags: docker}
-    - role: transferwise.ebs-automatic-nvme-mapping
-      tags:
-        - nvme
-
-    # Create var-lib-docker.mount
-    - role: cycloid.systemd
-      systemd_type: mount
-      systemd_mount_type: btrfs
-      systemd_mount_device: "{{ var_lib_docker_device }}"
-      systemd_mount_mountpoint: /var/lib/docker
-    - role: cycloid.systemd
-      systemd_type: dropin
-      systemd_dropin_service_name: "docker"
-      systemd_dropin_name: storage
-      systemd_dropin_priority: "01"
-      systemd_dropin_content:
-        - "[Unit]"
-        - "After=var-lib-docker.mount"
-        - "Requires=var-lib-docker.mount"
-    - role: cycloid.systemd
-      systemd_type: dropin
-      systemd_dropin_service_name: "concourse-server"
-      systemd_dropin_name: storage
-      systemd_dropin_priority: "01"
-      systemd_dropin_content:
-        - "[Unit]"
-        - "After=var-lib-docker.mount"
-        - "Requires=var-lib-docker.mount"
-
     - {role: cycloid.fluentd, tags: fluentd}
 
   tasks:
@@ -54,12 +25,6 @@
     - name: Install jq for user-data signal
       apt:
         name: jq
-        state: present
-
-    # Configure docker storage as btrfs. (Better performance for concourse using also baggage claim BTRFS
-    - name: Install btrfs-tools for docker storage
-      apt:
-        name: btrfs-tools
         state: present
 
     - name: override the default docker storage
