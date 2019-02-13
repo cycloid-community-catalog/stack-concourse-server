@@ -94,6 +94,8 @@ cycloid_files_watched:
   - name: user-data
     path: /var/log/user-data.log
 
+fluentd_docker: true
+
 #
 # Require override
 #

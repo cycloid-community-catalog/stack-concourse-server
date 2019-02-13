@@ -14,7 +14,7 @@
   scm: git
 
 - src: https://github.com/cycloidio/ansible-fluentd
-  version: master
+  version: sd-docker-logs
   name: cycloid.fluentd
   scm: git
 
