@@ -142,7 +142,7 @@
         container_cmd: "web"
         container_env:
           CONCOURSE_SESSION_SIGNING_KEY: "/opt/concourse/{{ concourse_session_signing_key_path }}"
-          CONCOURSE_TSA_HOST_KEY: "/opt/concourse/{{ concourse_host_key_path }}"
+          CONCOURSE_TSA_HOST_KEY: "/opt/concourse/{{ concourse_tsa_host_key_path }}"
           CONCOURSE_TSA_AUTHORIZED_KEYS: "/opt/concourse/{{ concourse_authorized_worker_keys_path }}"
           CONCOURSE_BASIC_AUTH_USERNAME: "{{ concourse_basic_auth_user }}"
           CONCOURSE_BASIC_AUTH_PASSWORD: "{{ concourse_basic_auth_password }}"
