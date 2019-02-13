@@ -90,6 +90,10 @@ sysctl_configs:
   - name: vm.max_map_count
     value: 262144
 
+cycloid_files_watched:
+  - name: user-data
+    path: /var/log/user-data.log
+
 #
 # Require override
 #
