@@ -66,12 +66,13 @@
     
     - name: authorized worker keys | concourse
       block:
-        - name: Check if worker_keys dir exists
-          stat:
+        - name: Check if workers_keys dir exists
+          local_action:
+            module: stat
             path: "{{ playbook_dir }}/files/workers_keys/"
           register: worker_keys_dir
 
-        - name: Assemble worker public keys into a authorized_keys file
+        - name: Assemble workers public keys into a authorized_keys file
           assemble:
             remote_src: false
             src: "{{ playbook_dir }}/files/workers_keys/"
