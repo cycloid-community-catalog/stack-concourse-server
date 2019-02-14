@@ -135,17 +135,3 @@
       tags:
         - docker-services
         - notforbuild
-
-    # Ensure server is started and configured at first boot
-    - name: configure server service | concourse
-      service:
-        name: concourse-server
-        enabled: yes
-      tags:
-       - notforbuild
-    - name: restart concourse server
-      service:
-        name: concourse-server
-        state: restarted
-      tags:
-       - notforbuild
