@@ -114,9 +114,7 @@
           # Vault integration
           CONCOURSE_VAULT_URL: "{{ vault_url }}"
           CONCOURSE_VAULT_INSECURE_SKIP_VERIFY: true
-          CONCOURSE_VAULT_ROLE_ID: "{{ vault_role_id }}"
-          CONCOURSE_VAULT_SECRET_ID: "{{ vault_secret_id }}"
-          CONCOURSE_VAULT_AUTH_PARAM: "role_id=$(CONCOURSE_VAULT_ROLE_ID),secret_id=$(CONCOURSE_VAULT_SECRET_ID)"
+          CONCOURSE_VAULT_AUTH_PARAM: "role_id={{ vault_role_id }},secret_id={{ vault_secret_id }}"
           CONCOURSE_VAULT_AUTH_BACKEND: "{{ vault_auth_backend }}"
           CONCOURSE_VAULT_PATH_PREFIX: "{{ vault_auth_prefix }}"
           #CONCOURSE_LOG_LEVEL: error
