@@ -47,13 +47,6 @@ resource "aws_security_group" "concourse" {
   description = "${var.env} Concourse server for ${var.project}"
   vpc_id      = "${var.vpc_id}"
 
-  ingress {
-    from_port       = 2222
-    to_port         = 2222
-    protocol        = "tcp"
-    cidr_blocks     = ["${var.workers_cidr_allow}"]
-  }
-
   egress {
     from_port   = 0
     to_port     = 0
@@ -99,6 +92,17 @@ resource "aws_security_group_rule" "ssh-sg" {
   protocol                  = "tcp"
   source_security_group_id  = "${element(var.workers_sg_allow, count.index)}"
   count                     = "${length(var.workers_sg_allow)}"
+
+  security_group_id = "${aws_security_group.concourse.id}"
+}
+
+resource "aws_security_group_rule" "ssh-cidr" {
+  type                      = "ingress"
+  from_port                 = 2222
+  to_port                   = 2222
+  protocol                  = "tcp"
+  cidr_blocks               = ["${var.workers_cidr_allow}"]
+  count                     = "${length(var.workers_cidr_allow) > 0 ? 1 : 0}"
 
   security_group_id = "${aws_security_group.concourse.id}"
 }
