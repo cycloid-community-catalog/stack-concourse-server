@@ -27,16 +27,13 @@
         name: jq
         state: present
 
-    - name: override the default docker storage
-      copy:
-        dest: /etc/docker/daemon.json
-        content: |
-          {
-            "storage-driver": "btrfs",
-            "storage-opts": [
-              "btrfs.min_space=2G"
-            ]
-          }
+    # - name: override the default docker storage
+    #   copy:
+    #     dest: /etc/docker/daemon.json
+    #     content: |
+    #       {
+    #         "storage-driver": "overlay2"
+    #       }
 
     - name: Adding sysctl config
       lineinfile:
