@@ -78,7 +78,7 @@
             src: "{{ playbook_dir }}/files/workers_keys/"
             dest: "{{ concourse_config_path }}/{{ concourse_authorized_worker_keys_path }}"
             mode: 0400
-            validate: '/usr/sbin/ssh-keygen -l -f %s'
+            #validate: '/usr/sbin/ssh-keygen -l -f %s'
           when: worker_keys_dir.stat.exists and worker_keys_dir.stat.isdir
 
         - name: Fallback empty authorized_keys file
