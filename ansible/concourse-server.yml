@@ -93,6 +93,7 @@
         name: mhutter.docker-systemd-service
       vars:
         name: concourse-server
+        container_name: concourse-server
         container_docker_pull: "{{ docker_pull }}"
         container_image: "{{ concourse_image }}:{{ concourse_version }}"
         container_ports:
