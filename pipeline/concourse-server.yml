@@ -112,7 +112,7 @@ resources:
       env: ((env))
       customer: ((customer))
       project: ((project))
-      rds_password: ((((rds_password))))
+      rds_password: ((rds_password))
     env:
       AWS_ACCESS_KEY_ID: ((aws_access_key))
       AWS_DEFAULT_REGION: ((aws_default_region))
@@ -194,7 +194,7 @@ jobs:
         CONFIG_PATH: ((config_ansible_path))
         STACK_PATH: ansible
         EXTRA_ANSIBLE_VARS:
-          rds_password: ((((rds_password))))
+          rds_password: ((rds_password))
           concourse_basic_auth_user: ((((concourse_server_creds)).basic_auth_user))
           concourse_basic_auth_password: ((((concourse_server_creds)).basic_auth_password))
           concourse_session_signing_key: ((((concourse_server_creds)).session_signing_key))
