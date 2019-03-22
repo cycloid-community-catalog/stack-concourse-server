@@ -124,7 +124,6 @@ resources:
   source:
     uri: https://github.com/cycloid-community-catalog/stack-concourse-server
     branch: ((stack_git_branch))
-    check_every: 2m
     paths:
       - terraform/*
 
@@ -134,7 +133,6 @@ resources:
   source:
     uri: ((config_git_repository))
     branch: ((config_git_branch))
-    check_every: 2m
     private_key: ((config_git_key))
     paths:
       - ((project))/terraform/((env))/*
@@ -145,7 +143,6 @@ resources:
   source:
     uri: https://github.com/cycloid-community-catalog/stack-concourse-server
     branch: ((stack_git_branch))
-    check_every: 2m
     paths:
       - ansible/*
 
@@ -155,7 +152,6 @@ resources:
   source:
     uri: ((config_git_repository))
     branch: ((config_git_branch))
-    check_every: 2m
     private_key: ((config_git_key))
     paths:
       - ((project))/ansible/*
