@@ -68,7 +68,7 @@ concourse_server_creds: raw_concourse_server_creds
 config_git_repository: ssh://APKAJ5QY5LYZNMX5
 
 #. config_git_branch (required): master
-#+ Branch of the config git repository.
+#+ Branch of the config Git repository.
 config_git_branch: master
 
 #. config_git_private_key (required): ((git_codecommit_readonly.ssh_key))
