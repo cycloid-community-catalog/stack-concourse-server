@@ -64,7 +64,7 @@ concourse_server_creds: raw_concourse_server_creds
 #
 
 #. config_git_repository (required): git@github.com:MyUser/config-concourse-server.git
-#+ Git repository url containing the config of the stack.
+#+ Git repository URL containing the config of the stack.
 config_git_repository: ssh://APKAJ5QY5LYZNMX5
 
 #. config_git_branch (required): master
