@@ -49,7 +49,7 @@ module "concourse-server" {
   #+ Root disk size in Go of AWS EC2 concourse servers.
 
   #. concourse_volume_disk_size (optional): 100
-  #+ Volume disk size in Go of Aws EC2 concourse servers.
+  #+ Volume disk size in Go of AWS EC2 concourse servers.
 
   #. concourse_ebs_optimized (optional, bool): true
   #+ Whether the Instance is EBS optimized or not, related to the instance type you choose.
