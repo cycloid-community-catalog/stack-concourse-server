@@ -46,7 +46,7 @@ module "concourse-server" {
   #
 
   #. concourse_disk_size (optional): 20
-  #+ Root disk size in Go of Aws EC2 concourse servers.
+  #+ Root disk size in Go of AWS EC2 concourse servers.
 
   #. concourse_volume_disk_size (optional): 100
   #+ Volume disk size in Go of Aws EC2 concourse servers.
