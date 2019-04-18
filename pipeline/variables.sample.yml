@@ -25,7 +25,7 @@ terraform_storage_bucket_name: ($ organization_canonical $)-terraform-remote-sta
 terraform_storage_bucket_path: ($ project $)/($ environment $)
 
 #. rds_password (required): ((raw_concourse_server_rds_password))
-#+ Password used for your rds database.
+#+ Password used for your RDS database.
 rds_password: ((raw_concourse_server_rds_password))
 
 
