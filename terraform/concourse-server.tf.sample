@@ -55,7 +55,7 @@ module "concourse-server" {
   #+ Whether the Instance is EBS optimized or not, related to the instance type you choose.
 
   #. concourse_type (optional): t3.small
-  #+ Type of Aws EC2 concourse servers. This will be used for "spot" and "ondemand" launch config templates
+  #+ Type of AWS EC2 concourse servers. This will be used for "spot" and "ondemand" launch config templates
 
   #. concourse_associate_public_ip_address (optional, bool): true
   #+ Assosiate or not an Amazon public IP to concourse servers.
