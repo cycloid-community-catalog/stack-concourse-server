@@ -72,7 +72,7 @@ config_git_repository: ssh://APKAJ5QY5LYZNMX5
 config_git_branch: master
 
 #. config_git_private_key (required): ((git_codecommit_readonly.ssh_key))
-#+ SSH key pair to fetch the config git repository.
+#+ SSH key pair to fetch the config Git repository.
 config_git_private_key: ((git_codecommit_readonly.ssh_key))
 
 #
