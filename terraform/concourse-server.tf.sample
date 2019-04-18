@@ -67,7 +67,7 @@ module "concourse-server" {
   # create a dedicated ALB
 
   #. concourse_create_alb (optional, bool): true
-  #+ Create a dedicated ALB on top of concourse servers.
+  #+ Create a dedicated ALB on top of Concourse servers.
 
   #.concourse_acm_certificate_arn (optional): "<acm-certificate-arn>"
   #+ mandatory if concourse_create_alb = true. Define Amazon certificate ACM to use for the SSL listener.
