@@ -96,11 +96,13 @@ cycloid_files_watched:
 
 fluentd_docker: true
 
+# Vault
+vault_auth_backend: approle
+vault_auth_prefix: /cycloid
+
 #
 # Require override
 #
 
 #concourse_domain: concourse.localdomain
 #vault_url: https://vault:8200
-#vault_auth_backend: approle
-#vault_auth_prefix: /cycloid

@@ -64,45 +64,45 @@ resource "aws_security_group" "concourse" {
 }
 
 resource "aws_security_group_rule" "http-sg" {
-  type                      = "ingress"
-  from_port                 = 8080
-  to_port                   = 8080
-  protocol                  = "tcp"
-  source_security_group_id  = "${element(aws_security_group.alb-concourse.*.id, count.index)}"
-  count                     = "${var.concourse_create_alb ? 1 : 0}"
+  type                     = "ingress"
+  from_port                = 8080
+  to_port                  = 8080
+  protocol                 = "tcp"
+  source_security_group_id = "${element(aws_security_group.alb-concourse.*.id, count.index)}"
+  count                    = "${var.concourse_create_alb ? 1 : 0}"
 
   security_group_id = "${aws_security_group.concourse.id}"
 }
 
 resource "aws_security_group_rule" "http-sg-var" {
-  type                      = "ingress"
-  from_port                 = 8080
-  to_port                   = 8080
-  protocol                  = "tcp"
-  source_security_group_id  = "${var.concourse_alb_security_group_id}"
-  count                     = "${var.concourse_create_alb ? 0 : 1}"
+  type                     = "ingress"
+  from_port                = 8080
+  to_port                  = 8080
+  protocol                 = "tcp"
+  source_security_group_id = "${var.concourse_alb_security_group_id}"
+  count                    = "${var.concourse_create_alb ? 0 : 1}"
 
   security_group_id = "${aws_security_group.concourse.id}"
 }
 
 resource "aws_security_group_rule" "ssh-sg" {
-  type                      = "ingress"
-  from_port                 = 2222
-  to_port                   = 2222
-  protocol                  = "tcp"
-  source_security_group_id  = "${element(var.workers_sg_allow, count.index)}"
-  count                     = "${length(var.workers_sg_allow)}"
+  type                     = "ingress"
+  from_port                = 2222
+  to_port                  = 2222
+  protocol                 = "tcp"
+  source_security_group_id = "${element(var.workers_sg_allow, count.index)}"
+  count                    = "${length(var.workers_sg_allow)}"
 
   security_group_id = "${aws_security_group.concourse.id}"
 }
 
 resource "aws_security_group_rule" "ssh-cidr" {
-  type                      = "ingress"
-  from_port                 = 2222
-  to_port                   = 2222
-  protocol                  = "tcp"
-  cidr_blocks               = ["${var.workers_cidr_allow}"]
-  count                     = "${length(var.workers_cidr_allow) > 0 ? 1 : 0}"
+  type        = "ingress"
+  from_port   = 2222
+  to_port     = 2222
+  protocol    = "tcp"
+  cidr_blocks = ["${var.workers_cidr_allow}"]
+  count       = "${length(var.workers_cidr_allow) > 0 ? 1 : 0}"
 
   security_group_id = "${aws_security_group.concourse.id}"
 }
@@ -117,7 +117,7 @@ resource "aws_launch_template" "concourse" {
 
   network_interfaces {
     associate_public_ip_address = "${var.concourse_associate_public_ip_address}"
-    delete_on_termination = true
+    delete_on_termination       = true
 
     security_groups = ["${compact(list(
         "${var.bastion_sg_allow}",
@@ -352,9 +352,9 @@ resource "aws_autoscaling_attachment" "concourse-8080" {
 }
 
 resource "aws_alb_listener_rule" "concourse" {
-  count         = "${var.concourse_create_alb ? 1 : 0}"
-  listener_arn  = "${element(aws_alb_listener.concourse-443.*.arn, count.index)}"
-  priority      = 80
+  count        = "${var.concourse_create_alb ? 1 : 0}"
+  listener_arn = "${element(aws_alb_listener.concourse-443.*.arn, count.index)}"
+  priority     = 80
 
   action {
     type             = "forward"
@@ -368,9 +368,9 @@ resource "aws_alb_listener_rule" "concourse" {
 }
 
 resource "aws_alb_listener_rule" "concourse-var" {
-  count         = "${var.concourse_create_alb ? 0 : 1}"
-  listener_arn  = "${var.concourse_alb_listener_arn}"
-  priority      = 80
+  count        = "${var.concourse_create_alb ? 0 : 1}"
+  listener_arn = "${var.concourse_alb_listener_arn}"
+  priority     = 80
 
   action {
     type             = "forward"
@@ -411,20 +411,17 @@ resource "aws_lb_listener" "concourse-2222" {
   protocol          = "TCP"
   port              = "2222"
 
-
   default_action {
     target_group_arn = "${aws_lb_target_group.concourse-2222.arn}"
     type             = "forward"
   }
 }
 
-
 resource "aws_lb_target_group" "concourse-2222" {
   name     = "${var.project}-ssh-${var.env}"
   protocol = "TCP"
   port     = 2222
   vpc_id   = "${var.vpc_id}"
-
 
   health_check {
     healthy_threshold   = 3
@@ -451,9 +448,12 @@ resource "aws_autoscaling_attachment" "concourse-2222" {
 
 ###
 
+
 # Cloudwatch autoscaling
 
+
 ###
+
 
 # Disable for now as concourse don't really like scale down
 #resource "aws_autoscaling_policy" "concourse-scale-up" {

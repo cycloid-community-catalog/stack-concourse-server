@@ -133,7 +133,7 @@ resources:
   source:
     uri: ((config_git_repository))
     branch: ((config_git_branch))
-    private_key: ((config_git_key))
+    private_key: ((config_git_private_key))
     paths:
       - ((project))/terraform/((env))/*
 
@@ -152,7 +152,7 @@ resources:
   source:
     uri: ((config_git_repository))
     branch: ((config_git_branch))
-    private_key: ((config_git_key))
+    private_key: ((config_git_private_key))
     paths:
       - ((project))/ansible/*
 

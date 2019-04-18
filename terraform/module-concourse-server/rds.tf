@@ -56,10 +56,10 @@ resource "aws_db_instance" "concourse" {
   final_snapshot_identifier = "${var.customer}-${var.project}-rds-concourse-${lookup(var.short_region, var.aws_region)}-${var.env}"
   skip_final_snapshot       = "${var.rds_skip_final_snapshot}"
 
-  parameter_group_name    = "${var.rds_parameters == "" ? aws_db_parameter_group.rds-optimized-postgresql.id : var.rds_parameters}"
-  db_subnet_group_name    = "${var.rds_subnet_group != "" ? var.rds_subnet_group : aws_db_subnet_group.rds-subnet.id}"
+  parameter_group_name = "${var.rds_parameters == "" ? aws_db_parameter_group.rds-optimized-postgresql.id : var.rds_parameters}"
+  db_subnet_group_name = "${var.rds_subnet_group != "" ? var.rds_subnet_group : aws_db_subnet_group.rds-subnet.id}"
 
-  vpc_security_group_ids  = ["${aws_security_group.rds-concourse.id}"]
+  vpc_security_group_ids = ["${aws_security_group.rds-concourse.id}"]
 
   tags {
     cycloid.io = "true"

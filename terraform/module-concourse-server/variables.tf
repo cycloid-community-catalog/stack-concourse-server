@@ -101,6 +101,7 @@ variable "rds_maintenance_window" {
 variable "rds_backup_window" {
   default = "02:00-04:00"
 }
+
 variable "rds_backup_retention" {
   default = 7
 }
@@ -119,7 +120,7 @@ variable "rds_subnet_group" {
 
 variable "rds_postgresql_family" {
   description = "The family of the Postgresql DB parameter group (ex: postgres9.4)"
-  default = "postgres9.5"
+  default     = "postgres9.5"
 }
 
 #
@@ -209,6 +210,7 @@ variable "concourse_acm_certificate_arn" {
 variable "concourse_alb_listener_arn" {
   default = ""
 }
+
 variable "concourse_alb_security_group_id" {
   default = ""
 }
