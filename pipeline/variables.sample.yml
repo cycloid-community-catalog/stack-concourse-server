@@ -80,7 +80,7 @@ config_git_private_key: ((git_codecommit_readonly.ssh_key))
 #
 
 #. debug_public_key: "ssh-rsa ..."
-#+ Public ssh key injected by Packer during the build of the AMI for debug purpose
+#+ Public SSH key injected by Packer during the build of the AMI for debug purpose
 debug_public_key: "ssh-rsa ..."
 
 #. packer_ansible_version: "2.4.3"
