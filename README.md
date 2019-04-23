@@ -1,7 +1,7 @@
 # stack-concourse-server
 
 Concourse is an open-source continuous thing-doer.
-Built on the simple mechanics of resources, tasks, and jobs, Concourse presents a general approach to automation that makes it great for CI/CD.
+Built on the simple mechanics of resources, tasks, and jobs. Concourse presents a general approach to automation that makes it great for CI/CD.
 
 # Architecture
 
@@ -21,8 +21,8 @@ This stack will deploy a Concourse server (web+atc) on an Amazon EC2 instance be
 
 In order to run this task, couple elements are required within the infrastructure:
 
-  * Having a VPC with private & public subnets [Here](https://docs.aws.amazon.com/vpc/latest/userguide/getting-started-ipv4.html#getting-started-create-vpc)
-  * Having an S3 bucket to store Terraform remote states [Here](https://docs.aws.amazon.com/quickstarts/latest/s3backup/step-1-create-bucket.html)
+  * Having a VPC with private & public subnets [here](https://docs.aws.amazon.com/vpc/latest/userguide/getting-started-ipv4.html#getting-started-create-vpc)
+  * Having an S3 bucket to store Terraform remote states [here](https://docs.aws.amazon.com/quickstarts/latest/s3backup/step-1-create-bucket.html)
 
 # Details
 
@@ -36,19 +36,19 @@ In order to run this task, couple elements are required within the infrastructur
 
 **Jobs description**
 
-  * `terraform-plan`: Terraform job that will simply make a plan of the stack.
-  * `terraform-apply`: Terraform job similar to the plan one, but will actually create/update everything that needs to. Please see the plan diff for a better understanding.
   * `terraform-destroy`: :warning: Terraform job meant to destroy the whole stack - **NO CONFIRMATION ASKED**. If triggered, the full project **WILL** be destroyed. Use with caution.
   * `build-ami` : Build Concourse server Amazon image AMI using Packer and Ansible.
+  * `terraform-plan`: Terraform job that will simply make a plan of the stack.
+  * `terraform-apply`: Terraform job similar to the plan one, but will actually create/update everything that needs to. Please see the plan diff for a better understanding.
   * `clean-ami` : Remove old AMI of Cycloid workers.
 
 **Params**
 
 |Name|Description|Type|Default|Required|
 |---|---|:---:|:---:|:---:|
-|`aws_access_key`|Amazon AWS access key for Terraform. see value format [Here](https://docs.cycloid.io/advanced-guide/integrate-and-use-cycloid-credentials-manager.html#vault-in-the-pipeline)|`-`|`((aws.access_key))`|`True`|
+|`aws_access_key`|Amazon AWS access key for Terraform. see value format [here](https://docs.cycloid.io/advanced-guide/integrate-and-use-cycloid-credentials-manager.html#vault-in-the-pipeline)|`-`|`((aws.access_key))`|`True`|
 |`aws_default_region`|Amazon AWS region to use for Terraform.|`-`|`eu-west-1`|`True`|
-|`aws_secret_key`|Amazon AWS secret key for Terraform. see value format [Here](https://docs.cycloid.io/advanced-guide/integrate-and-use-cycloid-credentials-manager.html#vault-in-the-pipeline)|`-`|`((aws.secret_key))`|`True`|
+|`aws_secret_key`|Amazon AWS secret key for Terraform. see value format [here](https://docs.cycloid.io/advanced-guide/integrate-and-use-cycloid-credentials-manager.html#vault-in-the-pipeline)|`-`|`((aws.secret_key))`|`True`|
 |`concourse_server_creds`|Cycloid raw credential name containing Concourse keys. Expected fields `basic_auth_user`, `basic_auth_password`, `session_signing_key`, `tsa_host_key`, `vault_role_id` and `vault_secret_id`|`-`|`raw_concourse_server_creds`|`True`|
 |`config_ansible_path`|Path of Ansible files in the config git repository|`-`|`($ project $)/ansible`|`True`|
 |`config_git_branch`|Branch of the config git repository.|`-`|`master`|`True`|
