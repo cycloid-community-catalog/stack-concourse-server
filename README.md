@@ -125,7 +125,7 @@ In order to run this task, couple elements are required within the infrastructur
 
   * Playbook and packer config to build a debian image with telegraf, fluentd and Concourse server (web+atc) installed.
 
-> Note: To allow concourse external workers, you will need to their SSH public keys
+> Note: To allow concourse external workers, you will need to put their SSH public key
 > in your ansible stack config in the following directory:
 > * `{PROJECT_NAME}/ansible/files/worker_keys/`
 > Allowed worker keys in this directory will be assembled into a authorized_keys
