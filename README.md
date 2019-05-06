@@ -48,7 +48,7 @@ In order to run this task, couple elements are required within the infrastructur
 |---|---|:---:|:---:|:---:|
 |`aws_access_key`|Amazon AWS access key for Terraform. see value format [here](https://docs.cycloid.io/advanced-guide/integrate-and-use-cycloid-credentials-manager.html#vault-in-the-pipeline)|`-`|`((aws.access_key))`|`True`|
 |`aws_default_region`|Amazon AWS region to use for Terraform.|`-`|`eu-west-1`|`True`|
-|`aws_secret_key`|Amazon AWS secret key for Terraform. see value format [Here](https://docs.cycloid.io/advanced-guide/integrate-and-use-cycloid-credentials-manager.html#vault-in-the-pipeline)|`-`|`((aws.secret_key))`|`True`|
+|`aws_secret_key`|Amazon AWS secret key for Terraform. see value format [here](https://docs.cycloid.io/advanced-guide/integrate-and-use-cycloid-credentials-manager.html#vault-in-the-pipeline)|`-`|`((aws.secret_key))`|`True`|
 |`concourse_server_creds`|Cycloid raw credential name containing Concourse keys. Expected fields `basic_auth_user`, `basic_auth_password`, `session_signing_key`, `tsa_host_key`, `vault_role_id` and `vault_secret_id`|`-`|`raw_concourse_server_creds`|`True`|
 |`config_ansible_path`|Path of Ansible files in the config git repository|`-`|`($ project $)/ansible`|`True`|
 |`config_git_branch`|Branch of the config git repository.|`-`|`master`|`True`|
