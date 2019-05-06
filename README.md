@@ -1,7 +1,7 @@
 # stack-concourse-server
 
 Concourse is an open-source continuous thing-doer.
-Built on the simple mechanics of resources, tasks, and jobs, Concourse presents a general approach to automation that makes it great for CI/CD.
+Built on the simple mechanics of resources, tasks, and jobs. Concourse presents a general approach to automation that makes it great for CI/CD.
 
 # Architecture
 
