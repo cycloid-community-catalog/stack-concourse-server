@@ -57,4 +57,3 @@ output "rds_database" {
 output "rds_username" {
   value = "${aws_db_instance.concourse.username}"
 }
-

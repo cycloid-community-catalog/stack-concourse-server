@@ -4,13 +4,22 @@
 # Global config
 #
 
-# Concourse public domain
-#concourse_domain: concourse.localdomain
+#. concourse_domain: concourse.localdomain
+#+ Concourse public domain.
+concourse_domain: myconcourse.com
 
-# Vault parameters
-#vault_url: https://vault:8200
-#vault_auth_backend: approle
-#vault_auth_prefix: /cycloid
+#. vault_url (required): https://vault:8200
+#+ Url of the Vault server to connect to Concourse.
+vault_url: https://vault:8200
+
+#. vault_auth_backend: approle
+#+ Vault auth type
+
+#. vault_auth_prefix: /cycloid
+#+ Vault prefix/mountpoint to use.
+
+#. concourse_version: 3.14.1
+#+ Concourse server version to deploy
 
 # To allow concourse external workers, you will need to their SSH public keys
 # in your ansible stack config in the following directory:

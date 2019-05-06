@@ -20,12 +20,10 @@ resource "aws_iam_role" "concourse" {
   path               = "/${var.project}/"
 }
 
-
 resource "aws_iam_instance_profile" "concourse_profile" {
   name = "profile-concourse-${var.project}-${var.env}"
   role = "${aws_iam_role.concourse.name}"
 }
-
 
 #
 # ec2 tag list policy
@@ -51,7 +49,6 @@ resource "aws_iam_policy" "ec2-tag-describe" {
 resource "aws_iam_role_policy_attachment" "ec2-tag-describe" {
   role       = "${aws_iam_role.concourse.name}"
   policy_arn = "${aws_iam_policy.ec2-tag-describe.arn}"
-
 }
 
 #
@@ -92,23 +89,25 @@ resource "aws_iam_role_policy_attachment" "cloudformation-signal" {
 
 data "aws_iam_policy_document" "concourse" {
   statement {
-    actions = [ 
-        "ecr:GetAuthorizationToken",
-        "ecr:BatchCheckLayerAvailability",
-        "ecr:GetDownloadUrlForLayer",
-        "ecr:BatchGetImage",
-    ]   
+    actions = [
+      "ecr:GetAuthorizationToken",
+      "ecr:BatchCheckLayerAvailability",
+      "ecr:GetDownloadUrlForLayer",
+      "ecr:BatchGetImage",
+    ]
+
     effect = "Allow"
-    resources = [ 
+
+    resources = [
       "*",
-    ]   
+    ]
   }
 }
 
 resource "aws_iam_policy" "concourse" {
-  name        = "${var.env}-${var.project}-concourse"
-  path        = "/"
-  policy      = "${data.aws_iam_policy_document.concourse.json}"
+  name   = "${var.env}-${var.project}-concourse"
+  path   = "/"
+  policy = "${data.aws_iam_policy_document.concourse.json}"
 }
 
 resource "aws_iam_role_policy_attachment" "concourse" {
@@ -119,20 +118,23 @@ resource "aws_iam_role_policy_attachment" "concourse" {
 # Logs
 data "aws_iam_policy_document" "push-logs" {
   statement {
-    effect  = "Allow"
+    effect = "Allow"
+
     actions = [
       "logs:UntagLogGroup",
       "logs:TagLogGroup",
       "logs:PutRetentionPolicy",
       "logs:PutLogEvents",
       "logs:DeleteRetentionPolicy",
-      "logs:CreateLogStream"
+      "logs:CreateLogStream",
     ]
+
     resources = ["arn:aws:logs:*:*:log-group:${var.project}_${var.env}:*"]
   }
 
   statement {
-    effect  = "Allow"
+    effect = "Allow"
+
     actions = [
       "logs:ListTagsLogGroup",
       "logs:DescribeSubscriptionFilters",
@@ -143,8 +145,9 @@ data "aws_iam_policy_document" "push-logs" {
       "logs:DescribeResourcePolicies",
       "logs:DescribeExportTasks",
       "logs:DescribeDestinations",
-      "logs:CreateLogGroup"
+      "logs:CreateLogGroup",
     ]
+
     resources = ["*"]
   }
 }
@@ -157,7 +160,6 @@ resource "aws_iam_policy" "push-logs" {
 }
 
 resource "aws_iam_role_policy_attachment" "push-logs" {
-  role      = "${aws_iam_role.concourse.name}"
+  role       = "${aws_iam_role.concourse.name}"
   policy_arn = "${aws_iam_policy.push-logs.arn}"
 }
-
