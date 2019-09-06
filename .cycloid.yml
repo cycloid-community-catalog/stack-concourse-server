@@ -10,6 +10,10 @@ keywords:
   - 'postgresql'
   - 'cycloid'
 technologies:
+  - technology: Amazon Auto Scaling Group
+    version: n/a
+  - technology: Amazon Application Loadbalancer
+    version: n/a
   - technology: Debian
     version: 9.x
   - technology: Concourse
