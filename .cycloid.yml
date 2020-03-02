@@ -1,6 +1,7 @@
 # Configuration of the CI pipeline
 name: 'Concourse Server'
 canonical: 'stack-concourse-server'
+status: 'public'
 description: 'Used to deploy a Concourse server (web+atc) on Amazon EC2 instance behind ALB/NLB load balancers, using PostgreSQL RDS database.'
 keywords:
   - 'concourse'
